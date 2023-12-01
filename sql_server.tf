@@ -10,12 +10,10 @@ resource "azurerm_mssql_server" "sql_server" {
 
 }
 
-resource "azurerm_sql_database" "sql_database" {
+resource "azurerm_mssql_database" "sql_database" {
   name                = "sql-database"
-  resource_group_name = azurerm_resource_group.vnet_vpn_rg.name
-  server_name         = azurerm_sql_server.sql_server.name
-  location            = azurerm_resource_group.vnet_vpn_rg.location
-  edition             = "Standard"
+  server_id         = azurerm_mssql_server.sql_server.id
+  sku_name          = "S0"
   collation           = "SQL_Latin1_General_CP1_CI_AS"
   max_size_gb         = 1
 
@@ -29,5 +27,5 @@ resource "azurerm_sql_database" "sql_database" {
 # }
 
 output "sql_server_fqdn" {
-  value = azurerm_sql_server.sql_server.fully_qualified_domain_name
+  value = azurerm_mssql_server.sql_server.fully_qualified_domain_name
 }
